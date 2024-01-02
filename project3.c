@@ -102,6 +102,10 @@ int main(int argc, char* argv[]) {
 
     pthread_mutex_init(&mutex, NULL);
 
+    // Record start time
+    struct timespec start, finish;
+    clock_gettime(CLOCK_MONOTONIC, &start);
+
     switch (d) {
         case 1:
             run_threads(c, method1_thread);
@@ -117,7 +121,15 @@ int main(int argc, char* argv[]) {
             return EXIT_FAILURE;
     }
 
+    // Record finish time
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+
+    // Calculate elapsed time in seconds
+    double elapsed_time = (finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec) / 1e9;
+
+    // Print the result and elapsed time
     printf("Sum: %e\n", global_sqrt_sum);
+    printf("Elapsed Time: %.3fs user %.3fs system %.3fs total\n", elapsed_time, elapsed_time / c, elapsed_time);
 
     pthread_mutex_destroy(&mutex);
 
