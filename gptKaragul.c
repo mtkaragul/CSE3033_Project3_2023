@@ -56,7 +56,6 @@ void *method3_thread(void *arg)
     {
         local_sqrt_sum += sqrt(x);
     }
-
     // Acquire the mutex before updating global_sqrt_sum
     pthread_mutex_lock(&mutex);
     global_sqrt_sum += local_sqrt_sum;
