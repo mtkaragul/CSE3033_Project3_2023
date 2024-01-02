@@ -119,10 +119,6 @@ int main(int argc, char* argv[]) {
 
     printf("Sum: %e\n", global_sqrt_sum);
 
-    // Additional: Print information about CPU cores
-    printf("CPU Core Information:\n");
-    system("lscpu");
-
     pthread_mutex_destroy(&mutex);
 
     return EXIT_SUCCESS;
