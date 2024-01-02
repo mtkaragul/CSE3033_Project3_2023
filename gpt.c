@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <math.h>
-#include <unistd.h>
 
 #define MAX_THREADS 32
 
@@ -18,7 +17,7 @@ void* method1_thread(void* arg) {
     // Calculate the local sum for the thread's assigned range
     double local_sqrt_sum = 0.0;
     long long int x;
-    for (x = start; x <= start + chunk_size; x++) {
+    for (x = start; x <= start + chunk_size - 1; x++) {
         local_sqrt_sum += sqrt(x);
     }
 
@@ -35,7 +34,7 @@ void* method2_thread(void* arg) {
     // Calculate the local sum for the thread's assigned range
     double local_sqrt_sum = 0.0;
     long long int x;
-    for (x = start; x <= start + chunk_size; x++) {
+    for (x = start; x <= start + chunk_size - 1; x++) {
         local_sqrt_sum += sqrt(x);
     }
 
@@ -54,7 +53,7 @@ void* method3_thread(void* arg) {
     // Calculate the local sum for the thread's assigned range
     double local_sqrt_sum = 0.0;
     long long int x;
-    for (x = start; x <= start + chunk_size; x++) {
+    for (x = start; x <= start + chunk_size - 1; x++) {
         local_sqrt_sum += sqrt(x);
     }
 
@@ -117,7 +116,7 @@ int main(int argc, char* argv[]) {
             run_threads(c, method3_thread);
             break;
         default:
-            fprintf(stderr, "Invalid value for d\n");
+            fprintf(stderr, "Invalid value for d: %d\n", d);
             return EXIT_FAILURE;
     }
 

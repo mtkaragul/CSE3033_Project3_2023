@@ -102,10 +102,6 @@ int main(int argc, char* argv[]) {
 
     pthread_mutex_init(&mutex, NULL);
 
-    // Record start time
-    struct timespec start, finish;
-    clock_gettime(CLOCK_MONOTONIC, &start);
-
     switch (d) {
         case 1:
             run_threads(c, method1_thread);
@@ -121,11 +117,11 @@ int main(int argc, char* argv[]) {
             return EXIT_FAILURE;
     }
 
-    // Record finish time
-    clock_gettime(CLOCK_MONOTONIC, &finish);
-
-    // Print the result and elapsed time
     printf("Sum: %e\n", global_sqrt_sum);
+
+    // Additional: Print information about CPU cores
+    printf("CPU Core Information:\n");
+    system("lscpu");
 
     pthread_mutex_destroy(&mutex);
 
