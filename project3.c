@@ -36,14 +36,12 @@ void* method2_thread(void* arg) {
     double local_sqrt_sum = 0.0;
     long long int x;
     for (x = start; x <= start + chunk_size; x++) {
-        local_sqrt_sum += sqrt(x);
-    }
-
-    // Acquire the mutex before updating global_sqrt_sum
+        // Acquire the mutex before updating global_sqrt_sum
     pthread_mutex_lock(&mutex);
-    global_sqrt_sum += local_sqrt_sum;
+    global_sqrt_sum += sqrt(x);
     pthread_mutex_unlock(&mutex); // Release the mutex
-
+    }
+    
     return NULL;
 }
 
