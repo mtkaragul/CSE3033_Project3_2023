@@ -129,7 +129,6 @@ int main(int argc, char* argv[]) {
 
     // Print the result and elapsed time
     printf("Sum: %e\n", global_sqrt_sum);
-    printf("Elapsed Time: %.3fs user %.3fs system %.3fs total\n", elapsed_time, elapsed_time / c, elapsed_time);
 
     pthread_mutex_destroy(&mutex);
 
