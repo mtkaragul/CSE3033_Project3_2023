@@ -14,9 +14,6 @@ pthread_mutex_t mutex;
 void* method1_thread(void* arg) {
     long long int start = *(long long int*)arg;
     long long int chunk_size = (b - a + 1) / c; // Divide the range equally among threads
-
-    // Calculate the local sum for the thread's assigned range
-    double local_sqrt_sum = 0.0;
     long long int x;
     for (x = start; x <= start + chunk_size; x++) {
         global_sqrt_sum += sqrt(x);
@@ -68,7 +65,6 @@ void run_threads(int num_threads, void* (*thread_func)(void*)) {
     // Create and run threads
     for (int i = 0; i < num_threads; i++) {
         thread_starts[i] = a + (i * ((b - a + 1) / num_threads));
-        
         if (pthread_create(&threads[i], NULL, thread_func, &thread_starts[i]) != 0) {
             perror("pthread_create");
             exit(EXIT_FAILURE);
@@ -113,10 +109,6 @@ int main(int argc, char* argv[]) {
     }
 
     printf("Sum: %e\n", global_sqrt_sum);
-
-    // Additional: Print information about CPU cores
-    printf("CPU Core Information:\n");
-    system("lscpu");
 
     pthread_mutex_destroy(&mutex);
 
