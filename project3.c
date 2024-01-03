@@ -11,9 +11,17 @@ int c, d;
 double global_sqrt_sum = 0.0;
 pthread_mutex_t mutex;
 
+void* method1_thread(void* arg);
+void* method2_thread(void* arg);
+void* method3_thread(void* arg);
+void run_threads(int num_threads, void* (*thread_func)(void*));
+void parse_arguments(int argc, char* argv[]);
+void execute_selected_method();
+long long int calculate_chunk_size();
+
 void* method1_thread(void* arg) {
     long long int start = *(long long int*)arg;
-    long long int chunk_size = (b - a + 1) / c; // Divide the range equally among threads
+    long long int chunk_size = calculate_chunk_size(); // Divide the range equally among threads
     long long int x;
     for (x = start; x <= start + chunk_size; x++) {
         global_sqrt_sum += sqrt(x);
@@ -24,7 +32,7 @@ void* method1_thread(void* arg) {
 
 void* method2_thread(void* arg) {
     long long int start = *(long long int*)arg;
-    long long int chunk_size = (b - a + 1) / c; // Divide the range equally among threads
+    long long int chunk_size = calculate_chunk_size(); // Divide the range equally among threads
 
     // Calculate the local sum for the thread's assigned range
     double local_sqrt_sum = 0.0;
@@ -41,7 +49,7 @@ void* method2_thread(void* arg) {
 
 void* method3_thread(void* arg) {
     long long int start = *(long long int*)arg;
-    long long int chunk_size = (b - a + 1) / c; // Divide the range equally among threads
+    long long int chunk_size = calculate_chunk_size(); // Divide the range equally among threads
 
     // Calculate the local sum for the thread's assigned range
     double local_sqrt_sum = 0.0;
@@ -79,20 +87,23 @@ void run_threads(int num_threads, void* (*thread_func)(void*)) {
         }
     }
 }
-
-int main(int argc, char* argv[]) {
+void parse_arguments(int argc, char* argv[]) {
     if (argc != 5) {
         fprintf(stderr, "Usage: %s <a> <b> <c> <d>\n", argv[0]);
-        return EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
-
+    
     a = atoll(argv[1]);
     b = atoll(argv[2]);
     c = atoi(argv[3]);
     d = atoi(argv[4]);
 
-    pthread_mutex_init(&mutex, NULL);
-
+    if (c > MAX_THREADS) {
+        fprintf(stderr, "Caution: c cannot be greater than %d\n", MAX_THREADS);
+        exit(EXIT_FAILURE);
+    }
+}
+void execute_selected_method() {
     switch (d) {
         case 1:
             run_threads(c, method1_thread);
@@ -105,8 +116,20 @@ int main(int argc, char* argv[]) {
             break;
         default:
             fprintf(stderr, "Invalid value for d\n");
-            return EXIT_FAILURE;
+            exit(EXIT_FAILURE);
     }
+}
+long long int calculate_chunk_size() {
+    return (b - a + 1) / c;
+}
+
+int main(int argc, char* argv[]) {
+    
+    parse_arguments(argc, argv);
+
+    pthread_mutex_init(&mutex, NULL);
+
+    execute_selected_method();
 
     printf("Sum: %e\n", global_sqrt_sum);
 
