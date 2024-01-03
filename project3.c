@@ -19,11 +19,8 @@ void* method1_thread(void* arg) {
     double local_sqrt_sum = 0.0;
     long long int x;
     for (x = start; x <= start + chunk_size; x++) {
-        local_sqrt_sum += sqrt(x);
+        global_sqrt_sum += sqrt(x);
     }
-
-    // Update global_sqrt_sum without any synchronization (concurrently)
-    global_sqrt_sum += local_sqrt_sum;
 
     return NULL;
 }
