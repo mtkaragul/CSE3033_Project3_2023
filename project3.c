@@ -98,6 +98,11 @@ void parse_arguments(int argc, char* argv[]) {
     c = atoi(argv[3]);
     d = atoi(argv[4]);
 
+    if (d == 1 && c > 8) {
+        fprintf(stderr, "Caution: c cannot be greater than %d\n", 8);
+        exit(EXIT_FAILURE);
+    }
+
     if (c > MAX_THREADS) {
         fprintf(stderr, "Caution: c cannot be greater than %d\n", MAX_THREADS);
         exit(EXIT_FAILURE);
