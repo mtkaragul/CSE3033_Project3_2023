@@ -1,6 +1,6 @@
 # CSE3033_Project3_2023
 
-### Operating Systems
+### CSE3033 - Operating Systems
 
 > Muhammed Talha Karagül - 150120055
 >
