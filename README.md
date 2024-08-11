@@ -7,13 +7,16 @@ they handle synchronization:
 
 ● Method 1: Each thread independently updates the global sum without
 synchronization.
+ 
   ○ Expected Behavior: For the same input, we expect the results (sum) to be
 different when the number of threads changes. This is because, without mutex
 synchronization, threads do not work concurrently. Consequently, Method 1 is
 prone to race conditions, and the absence of synchronization may lead to
 incorrect results.
+
 ● Method 2: Each thread acquires a mutex before updating the global sum to ensure
 mutual exclusion.
+
 ● Method 3: Each thread calculates a local sum, and after the local sum is computed, it
 acquires the mutex to update the global sum.
 
@@ -69,7 +72,5 @@ so we put some of the data we ran on Linux at the bottom of the report.
 
 ##### Contributors
 > Muhammed Talha Karagül
-> 
 > Kadir Bat
-> 
 > Feyzullah Asıllıoğlu 
